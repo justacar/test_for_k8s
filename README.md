@@ -1,6 +1,9 @@
 # test_for_k8s
 some test before deploying k8s
 
+
+`chmod 755 set_up `
+
 ```
 # Install Minikube
 $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64

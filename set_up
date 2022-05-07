@@ -15,3 +15,16 @@ sudo apt-get update && sudo apt-get install docker.io -y
 sudo apt-get install -y conntrack
 
 curl -sL cli.openfaas.com | sh
+
+kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+
+#helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+
+chmod 700 get_helm.sh
+
+./get_helm.sh
+
+helm repo add openfaas https://openfaas.github.io/faas-netes/
+
+helm upgrade openfaas --install openfaas/openfaas --namespace openfaas --set functionNamespace=openfaas-fn --set basic_auth=true

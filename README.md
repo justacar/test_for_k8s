@@ -14,10 +14,15 @@ $ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 $ sudo apt-get update && sudo apt-get install docker.io -y
 
 ```
+
+```
 sudo -i
 ```
 
+```
 git clone
+
+```
 
 ```
 minikube start --kubernetes-version=v1.18.0 HTTP_PROXY=https://minikube.sigs.k8s.io/docs/reference/networking/proxy/ --extra-config=apiserver.service-node-port-range=6000-32767 disk=20000MB --vm=true --driver=none

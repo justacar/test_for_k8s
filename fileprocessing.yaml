@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sentiment
+  name: sentiment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sentiment
+  template:
+    metadata:
+      labels:
+        app: sentiment
+    spec:
+      containers:
+      - image: ghcr.io/openfaas/sentimentanalysis:latest
+        name: sentiment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sentiment
+  name: sentiment
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: sentiment
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - image: redis
+        name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: redis
+  name: redis
+spec:
+  ports:
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379
+  selector:
+    app: redis
+  type: ClusterIP

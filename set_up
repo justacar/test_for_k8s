@@ -16,6 +16,8 @@ sudo apt-get install -y conntrack
 
 curl -sL cli.openfaas.com | sh
 
+minikube start --kubernetes-version=v1.18.0 HTTP_PROXY=https://minikube.sigs.k8s.io/docs/reference/networking/proxy/ --extra-config=apiserver.service-node-port-range=6000-32767 disk=20000MB --vm=true --driver=none
+
 kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
 
 #helm

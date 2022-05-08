@@ -29,7 +29,7 @@ chmod 700 get_helm.sh
 
 helm repo add openfaas https://openfaas.github.io/faas-netes/
 
-helm upgrade openfaas --install openfaas/openfaas --namespace openfaas --set functionNamespace=default --set basic_auth=true
+#helm upgrade openfaas --install openfaas/openfaas --namespace openfaas --set functionNamespace=default --set basic_auth=true
 
 
 

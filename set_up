@@ -30,3 +30,13 @@ chmod 700 get_helm.sh
 helm repo add openfaas https://openfaas.github.io/faas-netes/
 
 helm upgrade openfaas --install openfaas/openfaas --namespace openfaas --set functionNamespace=openfaas-fn --set basic_auth=true
+
+
+
+#export PASSWORD=admin123
+#kubectl -n openfaas create secret generic basic-auth --from-literal=basic-auth-user=admin --from-literal=basic-auth-password="$PASSWORD"
+
+#faas-cli login --password admin123
+
+#faas-cli store deploy sentimentanalysis
+

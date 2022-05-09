@@ -21,5 +21,6 @@ spec:
             valueFrom:
               fieldRef:  #通过fieldRef引入到env中
                 fieldPath: status.hostIP  #注入hostIP信息
-      - image: huangyaxuan/sentiment_test:latest
         name: test
+      - image: huangyaxuan/sentiment_test:latest
+        

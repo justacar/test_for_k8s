@@ -1,0 +1,74 @@
+version: '1.0'
+
+# # Settings and configurations that are common for all containers
+# x-minio-common: &minio-common
+#   image: quay.io/minio/minio
+#   command: server --console-address=":9001" --certs-dir=/etc/minio/ssl/ http://minio{1...3}/data{1...2}
+#   networks:
+#     - backend
+#   expose:
+#     - "9000"
+#     - "9001"
+#   healthcheck:
+#     test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+#     interval: 30s
+#     timeout: 20s
+#     retries: 3
+#   environment:
+#     MINIO_ROOT_USER: 'hkustcsit'
+#     MINIO_ROOT_PASSWORD: 'hkustcsit6000o'
+#     MINIO_NOTIFY_AMQP_ENABLE_mymq: 'on'
+#     MINIO_NOTIFY_AMQP_URL_mymq: 'amqp://hkust:csit6000o@mymq:5672'
+#     MINIO_NOTIFY_AMQP_EXCHANGE_mymq: amq.direct
+#     MINIO_NOTIFY_AMQP_ROUTING_KEY_mymq: minio
+#     MINIO_NOTIFY_AMQP_EXCHANGE_TYPE_mymq: direct
+#     MINIO_NOTIFY_AMQP_MANDATORY_mymq: 'off'
+#     MINIO_NOTIFY_AMQP_DURABLE_mymq: 'on'
+#     MINIO_NOTIFY_AMQP_COMMENT_mymq: 'RabbitMQ settings'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmqhost
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: hkust
+      RABBITMQ_DEFAULT_PASS: csit6000o
+
+  minio1:
+    image: quay.io/minio/minio
+    container_name: minio1
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: hkust
+      MINIO_ROOT_PASSWORD: csit6000o
+    volumes:
+      - ~/minio/data:/data
+    command: server --console-address ":9001" /data
+  
+  faas:
+    image: ziffer99/faas:0.2
+    container_name: faas
+    links:
+      - minio1
+    depends_on:
+      - minio1
+    ports:
+      - 60000:60000
+
+  workflow-opener:
+    image: ziffer99/workflow-opener:0.4
+    container_name: workflow-opener
+    links:
+      - rabbitmq
+      - faas
+    depends_on:
+      - rabbitmq
+      - faas
+    ports:
+      - 60000:60000

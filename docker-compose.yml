@@ -1,4 +1,4 @@
-version: "1"
+version: "2"
 
 # # Settings and configurations that are common for all containers
 # x-minio-common: &minio-common
@@ -35,8 +35,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      - RABBITMQ_DEFAULT_USER: hkust
-      - RABBITMQ_DEFAULT_PASS: csit6000o
+      - RABBITMQ_DEFAULT_USER = hkust
+      - RABBITMQ_DEFAULT_PASS = csit6000o
 
   minio1:
     image: quay.io/minio/minio
@@ -45,8 +45,8 @@ services:
       - "9000:9000"
       - "9001:9001"
     environment:
-      - MINIO_ROOT_USER: hkust
-      - MINIO_ROOT_PASSWORD: csit6000o
+      - MINIO_ROOT_USER = hkust
+      - MINIO_ROOT_PASSWORD = csit6000o
     volumes:
       - ~/minio/data:/data
     command: server --console-address ":9001" /data
